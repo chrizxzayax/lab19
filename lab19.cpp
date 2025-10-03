@@ -15,16 +15,16 @@ struct ReviewNode
 
     ReviewNode* next;
     ReviewNode(double r, const string& c) : rating(r), comment(c), next(nullptr) {}
-
+    // Constructor to initialize a node
 };
 
 class MovieReviews {
-    private:
+    private:// private members
         ReviewNode* head;
         string title;
 
     public:
-
+        // Constructor
         MovieReviews(const string& t) : title(t), head(nullptr) {}
 
         void addHead(double rating, const string& comment) {
@@ -35,13 +35,24 @@ class MovieReviews {
 
         void printRev() const {
             cout << "Movie: " << title << endl;
-            ReviewNode* current = head;
             int count = 1;
+            double sum = 0.0;
+            int total = 0;
+            ReviewNode* current = head;
             while (current) {
-                cout << "  > Review " << count++ << ": " << fixed << setprecision(1) << current->rating 
+                cout << "  > Review " << count++ << ": " << fixed << setprecision(1) << current->rating
                      << " - " << current->comment << endl;
+                sum += current->rating;
+                ++total;
                 current = current->next;
             }
+            if (total > 0) {
+                cout << "     > Average:  " << fixed << setprecision(5) << (sum / total) << " out of 5.0 from " << total << " reviews.\n";
+            }
+            else {
+                cout << "     > Average: N/A (no reviews)\n" << endl;
+            }
+            cout << endl;
         }
 
         ~MovieReviews() {// destructor to free memory
@@ -53,19 +64,9 @@ class MovieReviews {
             }
             head = nullptr;
         }
-        double averageRating() const {
-            double sum = 0.0;
-            int count = 0;
-            ReviewNode* current = head;
-            while (current) {
-                sum += current->rating;
-                count++;
-                current = current->next;
-            }
-            return count > 0 ? sum / count : 0.0;
-        }
 };
 
+// Function to read comments from a file into a vector
 vector<string> readComments(const string& filename) {
     vector<string> comments;
     ifstream fin(filename);
@@ -91,8 +92,8 @@ double randomRating() {
 int main()
 {
     srand(static_cast<unsigned int>(time(0))); // seed for random number generation
-    vector<string> allCom = readComments("comments.txt");
 
+    vector<string> allCom = readComments("reviewcom.txt");
     vector<string> movieTitles = {
         "The Matrix", "Inception", "Parasite", "Interstellar"
     };
