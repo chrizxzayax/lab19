@@ -21,8 +21,8 @@ struct ReviewNode
 class MovieReviews {
     private:
         ReviewNode* head;
-        string title;    
-            
+        string title;
+
     public:
 
         MovieReviews(const string& t) : title(t), head(nullptr) {}
@@ -52,6 +52,17 @@ class MovieReviews {
                 current = temp;
             }
             head = nullptr;
+        }
+        double averageRating() const {
+            double sum = 0.0;
+            int count = 0;
+            ReviewNode* current = head;
+            while (current) {
+                sum += current->rating;
+                count++;
+                current = current->next;
+            }
+            return count > 0 ? sum / count : 0.0;
         }
 };
 
@@ -103,5 +114,5 @@ int main()
         m.printRev();
         cout << endl;   
     }
-
+    return 0;
 }
