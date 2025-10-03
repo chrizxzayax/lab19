@@ -4,6 +4,9 @@
 #include <iomanip>
 #include <vector>
 using namespace std;
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 
 struct ReviewNode
 {
@@ -70,9 +73,35 @@ vector<string> readComments(const string& filename) {
     return comments;
 }
 
+double randomRating() {
+    return (static_cast<int>(10 * (1.0 + (rand() % 41) / 10.0))) / 10.0; // generates a rating between 1.0 and 5.0 in increments of 0.1
+}
+
 int main()
 {
     srand(static_cast<unsigned int>(time(0))); // seed for random number generation
     vector<string> allCom = readComments("comments.txt");
+
+    vector<string> movieTitles = {
+        "The Matrix", "Inception", "Parasite", "Interstellar"
+    };
+
+    vector<MovieReviews> movies;
+    size_t commentIdex = 0;
+
+    for (const string& title : movieTitles) {
+        MovieReviews m(title);
+        for (int i = 0; i < 3; ++i) {
+            string comment = (commentIdex < allCom.size()) ? allCom[commentIdex++] : "No comment available.";
+            double rating = randomRating();
+            m.addHead(rating, comment);
+        }
+        movies.push_back(m);
+    }
+
+    for (const auto& m : movies) {
+        m.printRev();
+        cout << endl;   
+    }
 
 }
