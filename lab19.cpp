@@ -89,7 +89,7 @@ int main()
     vector<MovieReviews> movies;
     size_t commentIdex = 0;
 
-    for (const string& title : movieTitles) {
+    for (const string& title : movieTitles) {// create MovieReviews objects and add 3 reviews each
         MovieReviews m(title);
         for (int i = 0; i < 3; ++i) {
             string comment = (commentIdex < allCom.size()) ? allCom[commentIdex++] : "No comment available.";
@@ -99,7 +99,7 @@ int main()
         movies.push_back(m);
     }
 
-    for (const auto& m : movies) {
+    for (const auto& m : movies) {// print all reviews for each movie
         m.printRev();
         cout << endl;   
     }
